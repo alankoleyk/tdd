@@ -36,6 +36,10 @@ class TestGetColumnIndex(unittest.TestCase):
     def test_name_present(self):
         header = ["Area", "Year", "Forest fires"]
         self.assertEqual(fire_gdp.get_column_index(header, "Year"), 1)
+    def test_name_absent(self):
+        self.assertIsNone(fire_gdp.get_column_index(["a", "b"], "z"))
+    def test_empty_header(self):
+        self.assertIsNone(fire_gdp.get_column_index([], "a"))
 
 
 
