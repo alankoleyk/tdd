@@ -44,6 +44,13 @@ class TestGetColumnIndex(unittest.TestCase):
         header = ["Country", "1990", "1991"]
         self.assertEqual(fire_gdp.get_column_index(header, "1991"), 2)
 
+class TestGetFireGdpYearData(unittest.TestCase):
+    def test_complete_country(self):
+        result = fire_gdp.get_fire_gdp_year_data(EMISSIONS, GDP, "Albania")
+        self.assertEqual(result, [[1990, 12.5, 1000.0],
+                                  [1991, 10.0, 1100.0],
+                                  [1992, 8.0, 1250.0]])
+        self.assertIsInstance(result[0][2], float)
 
 if __name__ == '__main__':
     unittest.main()
