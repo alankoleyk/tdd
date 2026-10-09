@@ -40,7 +40,9 @@ class TestGetColumnIndex(unittest.TestCase):
         self.assertIsNone(fire_gdp.get_column_index(["a", "b"], "z"))
     def test_empty_header(self):
         self.assertIsNone(fire_gdp.get_column_index([], "a"))
-
+    def test_year_is_a_string(self):
+        header = ["Country", "1990", "1991"]
+        self.assertEqual(fire_gdp.get_column_index(header, "1991"), 2)
 
 
 if __name__ == '__main__':
