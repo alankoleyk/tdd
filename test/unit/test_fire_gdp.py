@@ -51,6 +51,11 @@ class TestGetFireGdpYearData(unittest.TestCase):
                                   [1991, 10.0, 1100.0],
                                   [1992, 8.0, 1250.0]])
         self.assertIsInstance(result[0][2], float)
+    def test_skips_empty_values(self):
+        # Algeria 1991 has no forest fire value and no GDP value
+        result = fire_gdp.get_fire_gdp_year_data(EMISSIONS, GDP, "Algeria")
+        self.assertEqual(result, [[1990, 3.1, 5000.0], [1992, 2.9, 5600.0]])
 
+        
 if __name__ == '__main__':
     unittest.main()
