@@ -1,13 +1,12 @@
-
 """Plot forest fire emissions against GDP, one panel per country."""
- 
+
 import argparse
 import sys
- 
+
 import matplotlib.pyplot as plt
- 
+
 import fire_gdp
- 
+
 DEFAULT_COUNTRIES = [
     "Brazil",
     "Zambia",
@@ -17,8 +16,8 @@ DEFAULT_COUNTRIES = [
     "United States of America",
 ]
 PANELS_PER_ROW = 3
- 
- 
+
+
 def plot_country(ax, country, data):
     """Scatter GDP (x) against forest fire emissions (y) for one country."""
     ax.set_title(country)
@@ -33,8 +32,8 @@ def plot_country(ax, country, data):
     ax.scatter(gdp, fires)
     ax.set_xlabel("GDP (millions, local currency)")
     ax.set_ylabel("Forest fire emissions (kt CO2eq)")
- 
- 
+
+
 def make_plot(co2_file, gdp_file, countries, out_file):
     """Save one scatter panel per country to out_file."""
     rows = (len(countries) + PANELS_PER_ROW - 1) // PANELS_PER_ROW
@@ -49,8 +48,8 @@ def make_plot(co2_file, gdp_file, countries, out_file):
     fig.tight_layout()
     fig.savefig(out_file, bbox_inches="tight")
     plt.close(fig)
- 
- 
+
+
 def parse_args(argv=None):
     """Read the command line arguments."""
     parser = argparse.ArgumentParser(
@@ -62,8 +61,8 @@ def parse_args(argv=None):
                         default=DEFAULT_COUNTRIES)
     parser.add_argument("--out", default="fire_gdp.png")
     return parser.parse_args(argv)
- 
- 
+
+
 def main():
     """Make the plot and return an exit code."""
     args = parse_args()
@@ -73,7 +72,7 @@ def main():
         print(f"Error: {error}", file=sys.stderr)
         return 1
     return 0
- 
- 
+
+
 if __name__ == "__main__":
     sys.exit(main())
