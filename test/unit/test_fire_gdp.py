@@ -27,6 +27,17 @@ class TestGetData(unittest.TestCase):
         self.assertEqual(len(rows), 3)
         self.assertEqual(rows[0][0], "Albania")
 
+    def test_empty_cell_is_empty_string(self):
+        rows = fire_gdp.get_data(EMISSIONS, "Area", "Algeria")
+        self.assertEqual(rows[1][3], "")  # Algeria 1991 Forest fires
+
+
+class TestGetColumnIndex(unittest.TestCase):
+    def test_name_present(self):
+        header = ["Area", "Year", "Forest fires"]
+        self.assertEqual(fire_gdp.get_column_index(header, "Year"), 1)
+
+
 
 if __name__ == '__main__':
     unittest.main()
