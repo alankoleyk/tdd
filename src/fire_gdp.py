@@ -29,6 +29,8 @@ def get_fire_gdp_year_data(co2_file, gdp_file, country):
                                     return_header=True)
     gdp_rows, gdp_header = get_data(gdp_file, "Country", country,
                                     return_header=True)
+    if not co2_rows or not gdp_rows:
+        return []
     gdp_row = gdp_rows[0]
     fire_index = get_column_index(co2_header, "Forest fires")
 

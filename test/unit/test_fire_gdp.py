@@ -66,6 +66,13 @@ class TestGetFireGdpYearData(unittest.TestCase):
                 f.write("Country,1990,1991\nX,100,200\n")
             result = fire_gdp.get_fire_gdp_year_data(co2, gdp, "X")
         self.assertEqual(result, [[1990, 1.5, 100.0]])
+    def test_country_missing_from_a_file(self):
+        # Cuba is only in the CO2 file, Kosovo only in the GDP file
+        self.assertEqual(
+            fire_gdp.get_fire_gdp_year_data(EMISSIONS, GDP, "Cuba"), [])
+        self.assertEqual(
+            fire_gdp.get_fire_gdp_year_data(EMISSIONS, GDP, "Kosovo"), [])
 
+            
 if __name__ == '__main__':
     unittest.main()
