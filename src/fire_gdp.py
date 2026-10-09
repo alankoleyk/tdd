@@ -35,6 +35,8 @@ def get_fire_gdp_year_data(co2_file, gdp_file, country):
     result = []
     for row in co2_rows:
         gdp_index = get_column_index(gdp_header, row[1])
+        if gdp_index is None:
+            continue
         if row[fire_index] == "" or gdp_row[gdp_index] == "":
             continue
         result.append([int(row[1]), float(row[fire_index]),

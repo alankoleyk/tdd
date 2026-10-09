@@ -1,6 +1,7 @@
 import os
 import sys
 import unittest
+import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "..", "..", "src"))
@@ -55,7 +56,16 @@ class TestGetFireGdpYearData(unittest.TestCase):
         # Algeria 1991 has no forest fire value and no GDP value
         result = fire_gdp.get_fire_gdp_year_data(EMISSIONS, GDP, "Algeria")
         self.assertEqual(result, [[1990, 3.1, 5000.0], [1992, 2.9, 5600.0]])
+    def test_skips_year_not_in_gdp_header(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            co2 = os.path.join(tmp, "co2.csv")
+            gdp = os.path.join(tmp, "gdp.csv")
+            with open(co2, "w") as f:
+                f.write("Area,Year,Forest fires\nX,1990,1.5\nX,1800,9.9\n")
+            with open(gdp, "w") as f:
+                f.write("Country,1990,1991\nX,100,200\n")
+            result = fire_gdp.get_fire_gdp_year_data(co2, gdp, "X")
+        self.assertEqual(result, [[1990, 1.5, 100.0]])
 
-        
 if __name__ == '__main__':
     unittest.main()
