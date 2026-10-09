@@ -7,6 +7,13 @@ def get_data(file_name, query_column=None, query_value=None,
         reader = csv.reader(f)
         header = next(reader)
         rows = list(reader)
+        if query_column is not None:
+            index = header.index(query_column)
+            rows = [row for row in rows if row[index] == query_value]
+    if return_header:
+        return rows, header
+    
+
     return rows
 
 
