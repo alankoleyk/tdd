@@ -1,0 +1,28 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          environment-file: environment.yml
+          activate-environment: swe4s
+
+      - name: Style check
+        run: pycodestyle src test
+
+      - name: Unit tests
+        run: python -m unittest discover -s test/unit
+
+      - name: Functional tests
+        run: bash test/func/test_plot_fire_gdp.sh
