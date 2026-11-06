@@ -46,3 +46,30 @@ def get_fire_gdp_year_data(co2_file, gdp_file, country):
         result.append([int(row[1]), float(row[fire_index]),
                        float(gdp_row[gdp_index])])
     return result
+
+import argparse
+import os
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--co2_file", required=True)
+    parser.add_argument("--gdp_file", required=True)
+    parser.add_argument("--country", required=True)
+    parser.add_argument("--out_file", required=True)
+    args = parser.parse_args()
+
+    data = get_fire_gdp_year_data(args.co2_file, args.gdp_file, args.country)
+    if not data:
+        raise SystemExit(f"No data found for {args.country}")
+
+    out_dir = os.path.dirname(args.out_file)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+    with open(args.out_file, "w") as f:
+        for year, fires, gdp in data:
+            f.write(f"{year}\t{fires}\t{gdp}\n")
+
+
+if __name__ == "__main__":
+    main()
